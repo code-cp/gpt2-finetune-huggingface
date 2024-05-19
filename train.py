@@ -18,8 +18,7 @@ def plot_training_metrics(trainer, metric_name):
     plt.title(f"{metric_name.capitalize()} vs Training Steps")
     plt.legend()
     # plt.show()
-
-    
+    plt.savefig('./output/plot.png') 
 
 def create_data_collator(tokenizer):
     data_collator = DataCollatorForLanguageModeling(
@@ -50,7 +49,7 @@ train_dataset, test_dataset = random_split(dataset, [train_size, test_size])
 training_args = TrainingArguments(
     output_dir="./output",
     overwrite_output_dir=True,
-    num_train_epochs=1,
+    num_train_epochs=100,
     per_device_train_batch_size=4,
     save_steps=10_000,
     save_total_limit=2,
