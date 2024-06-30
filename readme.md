@@ -1,6 +1,7 @@
 ## about 
 
 - finetune GPT2 using Huggingface model 
+- app https://gpt2-rickbot.streamlit.app/
 
 ## results 
 
