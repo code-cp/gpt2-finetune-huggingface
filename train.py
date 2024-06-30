@@ -58,7 +58,7 @@ def train():
     training_args = TrainingArguments(
         output_dir="./output",
         overwrite_output_dir=True,
-        num_train_epochs=10,
+        num_train_epochs=100,
         per_device_train_batch_size=4,
         save_steps=10_000,
         save_total_limit=2,
@@ -68,7 +68,7 @@ def train():
     trainer = Trainer(
         model=model,
         args=training_args,
-        data_collator=create_data_collator(tokenizer),
+        data_collator=data_collator,
         train_dataset=train_dataset,
         eval_dataset=val_dataset,
     )

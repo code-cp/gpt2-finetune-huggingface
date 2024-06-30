@@ -4,10 +4,17 @@ tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
 config = GPT2Config.from_pretrained("gpt2")
 model = GPT2LMHeadModel.from_pretrained("./models", config=config)
 
-inputs = tokenizer("Rick: I turned myself into a pickle, Morty!\nMorty: ", return_tensors="pt")
-outputs = model.generate(**inputs, do_sample=True, max_length=64, top_k=50, top_p=0.95, num_return_sequences=4)
+prompt = "Who are you\n"
+print(f"{prompt}")
+inputs = "Morty: Hi Rick." + prompt
+inputs = tokenizer(inputs, return_tensors="pt")
+outputs = model.generate(**inputs, do_sample=True, max_length=64, top_k=50, top_p=0.95, num_return_sequences=1)
 
-for idx in range(len(outputs)):
-    result = tokenizer.decode(outputs[idx])
-    print(f"sample {idx}: {result}")
+result = tokenizer.decode(outputs[0])
+lines = result.splitlines()  # Split the input string into lines
+for line in lines:
+    if line.strip().startswith("Rick:"):
+        result = line.replace('Rick:', '')
+        print(f"{result}")
+        break 
 
