@@ -4,6 +4,8 @@
 
 ## results 
 
+- model https://huggingface.co/code-cp/gpt2-rickbot
+
 - dialogue bot 
 
 ![alt text](assets/demo.png)
