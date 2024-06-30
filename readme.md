@@ -1,6 +1,9 @@
 ## about 
 
 - finetune GPT2 using Huggingface model 
+
+![alt text](assets/loss.png)
+
 - app https://gpt2-rickbot.streamlit.app/
 
 ## results 

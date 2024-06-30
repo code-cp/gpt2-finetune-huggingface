@@ -7,4 +7,4 @@
 streamlit-nightly==0.69.3.dev20201025
 torch==1.6.0+cpu
 torchvision==0.7.0+cpu
-transformers @ git+git://github.com/huggingface/transformers@59b5953d89544a66d73
+transformers==4.42.3
