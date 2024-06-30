@@ -1,5 +1,10 @@
 import torch 
 import streamlit as st
+
+import transformers
+print(f"{transformers.__version__}")
+
+from transformers import pipeline, set_seed
 from transformers.pipelines import TextGenerationPipeline
 from transformers import GPT2TokenizerFast, GPT2Config, GPT2LMHeadModel
 
@@ -10,9 +15,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 @st.cache(allow_output_mutation=True, suppress_st_warning=True)
 def load_model() -> TextGenerationPipeline:
-    config = GPT2Config.from_pretrained("gpt2")
-    model = GPT2LMHeadModel.from_pretrained("./models", config=config)
-    return model
+    return pipeline("text-generation", model="code-cp/gpt2-rickbot", device=device)
 
 def main():
     state = _get_state()

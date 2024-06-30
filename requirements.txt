@@ -1,3 +1,4 @@
 altair==4.0
 streamlit==1.11.1
 transformers==4.23.1
+torch==1.13.1

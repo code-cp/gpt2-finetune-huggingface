@@ -1,12 +1,7 @@
-import torch 
 import streamlit as st
-from transformers import pipeline, set_seed
 from transformers.pipelines import TextGenerationPipeline
-from transformers import GPT2TokenizerFast, GPT2Config, GPT2LMHeadModel
 
 from session import _SessionState, _get_session, _get_state
-
-tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
 
 def load_page(state: _SessionState, model: TextGenerationPipeline):
     disclaimer_short = """
@@ -42,33 +37,31 @@ def load_page(state: _SessionState, model: TextGenerationPipeline):
         state.clear()
 
     if submit_button:
-        try:
-            prompt = state.input + "\n"
+        prompt = state.input + "\n"
 
-            # Add the dialogue to history
-            state.dialogue_history.append({
-                'speaker': "You:",
-                'text': prompt
-            })
+        # Add the dialogue to history
+        state.dialogue_history.append({
+            'speaker': "You:",
+            'text': prompt
+        })
 
-            inputs = "Morty: Hi Rick." + prompt
-            inputs = tokenizer(inputs, return_tensors="pt")
-            outputs = model.generate(**inputs, do_sample=True, max_length=128, top_k=50, top_p=0.95, num_return_sequences=1)
+        inputs = "Morty: Hi Rick." + prompt
+        outputs = model(inputs, do_sample=True, max_length=128, truncation=True, top_k=50, top_p=0.95, num_return_sequences=1)
 
-            rick_reply = ""
-            result = tokenizer.decode(outputs[0])
-            lines = result.splitlines()  # Split the input string into lines
-            for line in lines:
-                if line.strip().startswith("Rick:"):
-                    result = line.replace('Rick:', '')
-                    rick_reply = result
-                    break 
+        rick_reply = ""
+        result = outputs[0]["generated_text"]
+        lines = result.splitlines()  # Split the input string into lines
 
-            # Add the dialogue to history
-            state.dialogue_history.append({
-                'speaker': "Rick:",
-                'text': rick_reply
-            })
-        except Exception as e:
-                st.error(f"Error generating response: {str(e)}")
+        for line in lines:
+            if line.strip().startswith("Rick:"):
+                result = line.replace('Rick:', '')
+                rick_reply = result
+                break 
+
+        # Add the dialogue to history
+        state.dialogue_history.append({
+            'speaker': "Rick:",
+            'text': rick_reply
+        })
+
 

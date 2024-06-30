@@ -9,6 +9,7 @@
 - dialogue bot 
 
 ![alt text](assets/demo.png)
+![alt text](assets/none.png)
 
 - after 1 epoch 
 
