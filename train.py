@@ -4,8 +4,10 @@ from transformers import GPT2LMHeadModel, GPT2Tokenizer, GPT2Config, GPT2LMHeadM
 from transformers import TextDataset, DataCollatorForLanguageModeling
 from transformers import Trainer, TrainingArguments
 import matplotlib.pyplot as plt
-
 from transformers import GPT2TokenizerFast, GPT2Config, GPT2LMHeadModel
+import os 
+
+from utils import process_text 
 
 def plot_training_metrics(trainer, metric_name):
     loss = []
@@ -32,24 +34,30 @@ config = GPT2Config.from_pretrained("gpt2")
 model = GPT2LMHeadModel.from_pretrained("gpt2", config=config)
 
 # Create dataset and data_collator
-dataset = TextDataset(
+results_root = os.path.join(os.getcwd(), "data")
+os.makedirs(results_root, exist_ok=True)
+
+results_path = "/home/nuc/workspace/build-gpt2/data/train.txt"
+train_dataset = TextDataset(
     tokenizer=tokenizer,
-    file_path="/home/sean/workspace/llm-burn/data/dataset.txt",
+    file_path=results_path,
     block_size=128,
 )
-data_collator = create_data_collator(tokenizer)
 
-# Train-test split
-train_ratio = 0.9
-train_size = int(train_ratio * len(dataset))
-test_size = len(dataset) - train_size
-train_dataset, test_dataset = random_split(dataset, [train_size, test_size])
+results_path = "/home/nuc/workspace/build-gpt2/data/val.txt"
+val_dataset = TextDataset(
+    tokenizer=tokenizer,
+    file_path=results_path,
+    block_size=128,
+)
+
+data_collator = create_data_collator(tokenizer)
 
 # Configure Trainer instance
 training_args = TrainingArguments(
     output_dir="./output",
     overwrite_output_dir=True,
-    num_train_epochs=100,
+    num_train_epochs=10,
     per_device_train_batch_size=4,
     save_steps=10_000,
     save_total_limit=2,
@@ -61,7 +69,7 @@ trainer = Trainer(
     args=training_args,
     data_collator=create_data_collator(tokenizer),
     train_dataset=train_dataset,
-    eval_dataset=test_dataset,
+    eval_dataset=val_dataset,
 )
 
 # Train the model
