@@ -1,5 +1,6 @@
 import streamlit as st
 from transformers.pipelines import TextGenerationPipeline
+from transformers import GPT2TokenizerFast, GPT2Config, GPT2LMHeadModel
 
 from session import _SessionState, _get_session, _get_state
 
@@ -46,10 +47,11 @@ def load_page(state: _SessionState, model: TextGenerationPipeline):
         })
 
         inputs = "Morty: Hi Rick." + prompt
-        outputs = model(inputs, do_sample=True, max_length=128, truncation=True, top_k=50, top_p=0.95, num_return_sequences=1)
+        inputs = tokenizer(inputs, return_tensors="pt")
+        outputs = model.generate(**inputs, do_sample=True, max_length=128, top_k=50, top_p=0.95, num_return_sequences=1)
 
         rick_reply = ""
-        result = outputs[0]["generated_text"]
+        result = tokenizer.decode(outputs[0])
         lines = result.splitlines()  # Split the input string into lines
 
         for line in lines:
