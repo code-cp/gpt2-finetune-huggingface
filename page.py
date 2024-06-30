@@ -28,6 +28,7 @@ def load_page(state: _SessionState, model: TextGenerationPipeline):
 
     # Input prompt at the bottom
     with st.form(key='input_form'):
+        state.input = ""
         state.input = st.text_area(
             "Enter your message to Rick:",
             state.input,
