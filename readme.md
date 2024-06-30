@@ -4,6 +4,10 @@
 
 ## results 
 
+- dialogue bot 
+
+![alt text](assets/demo.png)
+
 - after 1 epoch 
 
 ```
