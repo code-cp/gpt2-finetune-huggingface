@@ -4,7 +4,6 @@
 # torch==1.13.1
 
 -f https://download.pytorch.org/whl/torch_stable.html
-streamlit-nightly==0.69.3.dev20201025
 torch==1.6.0+cpu
 torchvision==0.7.0+cpu
 transformers==4.42.3
