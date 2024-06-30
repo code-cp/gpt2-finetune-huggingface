@@ -16,7 +16,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 @st.cache(allow_output_mutation=True, suppress_st_warning=True)
 def load_model() -> TextGenerationPipeline:
     config = GPT2Config.from_pretrained("gpt2")
-    model = GPT2LMHeadModel.from_pretrained("code-cp/gpt2-rickbot", config=config)
+    model = GPT2LMHeadModel.from_pretrained("./models", config=config, trust_remote_code=True)
     return model
 
 def main():

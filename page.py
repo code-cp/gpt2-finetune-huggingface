@@ -4,6 +4,8 @@ from transformers import GPT2TokenizerFast, GPT2Config, GPT2LMHeadModel
 
 from session import _SessionState, _get_session, _get_state
 
+tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
+
 def load_page(state: _SessionState, model: TextGenerationPipeline):
     disclaimer_short = """
     __Disclaimer__: 
